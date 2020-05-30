@@ -48,5 +48,45 @@ class Image(models.Model):
         '''
         method that deletes post from database
         '''
-        self.delete()    
-        
+        self.delete()
+
+class Comments(models.Model):
+    '''
+    Comment class for comment objects
+    '''
+    comment= models.TextField()
+    username = models.ForeignKey(User,on_delete=models.CASCADE)
+    image_foreign=models.ForeignKey(Image, on_delete=models.CASCADE)
+
+    def __str__(self):
+        '''
+        Setting up self
+        '''
+        return self.detail
+
+    @classmethod
+    def get_comments(cls):
+        '''
+        Method for getting all the comments posted
+        '''
+        comment=cls.objects.all()
+        return comment
+
+    @classmethod
+    def get_singlepost_comments(cls, id):
+        '''
+        function that gets comments for a single post
+        '''
+        comments=cls.objects.filter(image_foreign__in=id)
+        return comments
+    def save_comment(self):
+        '''
+        function that saves a new comment
+        '''
+        self.save()
+
+    def delete_comment(self):
+        '''
+        function that deletes a comment
+        '''
+        self.delete()        
