@@ -10,8 +10,6 @@ class ProfileForm(forms.ModelForm):
         model = Profile
         exlcude = ['followers','following','user']
         fields = ('bio', 'profile_pic')
-
-
          
 class ImageForm(forms.ModelForm):
     '''
