@@ -9,8 +9,6 @@ class Profile(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     profile_pic=models.ImageField(upload_to = 'images/')
     bio=models.CharField(max_length = 100)
-    followers= models.IntegerField(blank=True , null=True)
-    following = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return self.user
@@ -51,13 +49,21 @@ class Image(models.Model):
         '''
         self.delete()
 
+    @classmethod
+    def update_caption(cls,id,caption):
+        '''
+        method to update caption
+        '''
+        captions=cls.objects.filter(caption_id=id).update(caption = caption)
+        return captions
+
 class Comments(models.Model):
     '''
     Comment class for comment objects
     '''
     comment= models.TextField()
-    user_id = models.ForeignKey(User,on_delete=models.CASCADE)
-    image_id=models.ForeignKey(Image, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
+    image_id=models.ForeignKey(Image, on_delete=models.CASCADE,null=True)
 
     def __str__(self):
         '''

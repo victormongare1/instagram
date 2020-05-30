@@ -8,7 +8,7 @@ class ProfileForm(forms.ModelForm):
     '''
     class Meta:
         model = Profile
-        exlcude = ['followers','following','user']
+        exlcude = ['user']
         fields = ('bio', 'profile_pic')
          
 class ImageForm(forms.ModelForm):

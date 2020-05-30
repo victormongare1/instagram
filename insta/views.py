@@ -25,8 +25,7 @@ def search_results(request):
         return render(request, 'search.html',{"message":message})    
 
 @login_required(login_url='/accounts/login/')  
-def profile(request):
-    def profile(request):
+def create_profile(request):
     current_user = request.user
     if request.method=="POST":
         form = ProfileForm(request.POST,request.FILES)
@@ -37,11 +36,29 @@ def profile(request):
             return redirect(home)
     else:
         form = ProfileForm()
-    return render(request, 'profile.html',{"form":form})
+    return render(request, 'create_profile.html',{"form":form})
+
+@login_required(login_url='/accounts/login/')  
+def profile(request,id):  
+    current_user = request.user
+    profile = Profile.objects.filter(user_id=id).all()
+    images = Image.objects.filter(profile_id=current_user.profile.id).all()
+    return render(request, 'profile.html', {"profile":profile, "images":images})  
 
 @login_required(login_url='/accounts/login/')  
 def new_post(request):
-    post=None
+    current_user = request.user
+    if request.method=='POST':
+        form = ImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            image = form.save(commit=False)
+            image.profile = current_user.profile
+            image.save()
+            return redirect(home)
+    else:
+        form = ImageForm()
+    return render(request, 'newpost.html',{"form":form})
+
 
 @login_required(login_url='/accounts/login/')  
 def new_comment(request,id):
