@@ -4,7 +4,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns=[
-
+    url(r'^$',views.home,name='home'),
+    url(r'^search/',views.search_results,name="search_results"),
+    url(r'^newpost',views.new_post,name="new_post"),
+    url(r'^accounts/profile',views.profile,name='profile')
+    url(r'^logout/$', views.logout, {"next_page": '/'}), 
 ]
 if settings.DEBUG:
-  urlpatterns+= static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+    urlpatterns+= static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
