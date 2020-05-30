@@ -6,9 +6,17 @@ class Profile(models.Model):
     '''
     profile class to define profile objects
     '''
-    username=models.ForeignKey(User,on_delete=models.CASCADE)
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
     profile_pic=models.ImageField(upload_to = 'images/')
     bio=models.CharField(max_length = 100)
+
+    def __str__(self):
+        return self.user
+
+    @classmethod
+    def search_by_name(cls,search_term):
+        name = cls.objects.filter(user__username__icontains = search_term)
+        return name
 
 class Image(models.Model):
     '''

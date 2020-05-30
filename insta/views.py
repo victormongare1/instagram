@@ -10,7 +10,16 @@ def home(request):
 
 @login_required(login_url='/accounts/login/')  
 def search_results(request):
-    search=None
+    if 'username' in request.GET and request.GET["username"]:
+        search_term = request.GET.get("username")
+        searched_users =Profile.search_by_name(search_term)
+        message = f"{search_term}"
+
+        return render(request, 'search.html',{"message":message,"users": searched_users})
+
+    else:
+        message = "You haven't searched for any term"
+        return render(request, 'search.html',{"message":message})    
 
 @login_required(login_url='/accounts/login/')  
 def profile(request):
