@@ -14,8 +14,8 @@ class Image(models.Model):
     image class to define image objects
     '''
     image=models.ImageField(upload_to = 'images/')
-    name=
-    caption=
-    profile=
-    likes=
-    comments=
+    name=models.CharField(max_length = 100)
+    caption=models.CharField(max_length = 100)
+    profile=models.ForeignKey(Profile,on_delete=models.CASCADE)
+    likes=models.IntegerField(default=0)
+    comments=models.CharField(max_length = 100)
