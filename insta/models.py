@@ -27,10 +27,9 @@ class Image(models.Model):
     '''
     image=models.ImageField(upload_to = 'images/')
     name=models.CharField(max_length = 100)
-    caption=models.CharField(max_length = 100)
+    caption=models.CharField(max_length = 100,blank=True)
     profile=models.ForeignKey(Profile,on_delete=models.CASCADE)
     likes=models.IntegerField(default=0)
-    comments=models.CharField(max_length = 100)
     
     def __str__(self):
         '''
@@ -62,7 +61,7 @@ class Comments(models.Model):
         '''
         Setting up self
         '''
-        return self.detail
+        return self.comment
 
     @classmethod
     def get_comments(cls):

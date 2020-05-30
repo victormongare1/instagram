@@ -29,5 +29,9 @@ def profile(request):
 def new_post(request):
     post=None
 
+@login_required(login_url='/accounts/login/')  
+def new_comment(request,id):
+    
+
 
 
