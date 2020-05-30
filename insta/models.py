@@ -29,7 +29,6 @@ class Image(models.Model):
     name=models.CharField(max_length = 100)
     caption=models.CharField(max_length = 100,blank=True)
     profile=models.ForeignKey(Profile,on_delete=models.CASCADE)
-    likes=models.IntegerField(default=0)
     
     def __str__(self):
         '''
@@ -97,3 +96,10 @@ class Comments(models.Model):
         function that deletes a comment
         '''
         self.delete()        
+
+class Like(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    image = models.ForeignKey(Image, on_delete=models.CASCADE)
+    
+    def save_like(self):
+        self.save()

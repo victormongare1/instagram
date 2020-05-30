@@ -62,7 +62,7 @@ def new_post(request):
 
 @login_required(login_url='/accounts/login/')  
 def new_comment(request,id):
-   current_user = request.user
+    current_user = request.user
     image = Image.objects.get(pk=id)
     if request.method=='POST':
         form = CommentForm(request.POST)
