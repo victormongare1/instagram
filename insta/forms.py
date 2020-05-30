@@ -8,6 +8,16 @@ class ProfileForm(forms.ModelForm):
     '''
     class Meta:
         model = Profile
-        exlcude = ['follower_user', 'following_user']
-        fields = ('bio', 'profile_photo')
-        
+        exlcude = ['followers','following','user']
+        fields = ('bio', 'profile_pic')
+
+
+         
+class ImageForm(forms.ModelForm):
+    '''
+    class to define image uploading form
+    '''
+    class Meta:
+        model = Image
+        exclude = ['profile','likes']
+        fields = ('image','name','caption')       
