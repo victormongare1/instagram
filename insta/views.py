@@ -62,6 +62,20 @@ def new_post(request):
 
 @login_required(login_url='/accounts/login/')  
 def new_comment(request,id):
+   current_user = request.user
+    image = Image.objects.get(pk=id)
+    if request.method=='POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user_id = current_user
+            comment.image_id = image
+            comment.save_comment()
+            return redirect(home)
+    else:
+        form= CommentForm()
+    return render(request, 'newcomment.html', {"form":form, "image":image})
+     
     
 
 
