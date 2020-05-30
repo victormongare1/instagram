@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
-from .models import Image,Profile,Comments
+from .models import Image,Profile,Comments,Like
 from django.contrib.auth.models import User
 from django.http  import HttpResponse,Http404,HttpResponseRedirect
 from .forms import ImageForm,ProfileForm,CommentForm
@@ -75,8 +75,20 @@ def new_comment(request,id):
     else:
         form= CommentForm()
     return render(request, 'newcomment.html', {"form":form, "image":image})
-     
-    
 
+@login_required(login_url='/accounts/login/')       
+def likes(request, img_id):
+    current_user = request.user
+    current_image = Image.objects.get(pk=img_id)
+    new_like= Like.objects.create(user=current_user, image=current_image)
+    
+    return redirect(home)    
+
+@login_required(login_url='/accounts/login/')  
+def one_image(request, img_id):
+    image = Image.objects.get(pk=img_id)
+    no_of_likes = image.like_set.all().count()
+    comments = Comment.objects.filter(image_id=img_id).all()
+    return render(request,'singlepost.html',{"image":image, "comments":comments, "no_of_likes":no_of_likes})
 
 
