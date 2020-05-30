@@ -56,8 +56,8 @@ class Comments(models.Model):
     Comment class for comment objects
     '''
     comment= models.TextField()
-    username = models.ForeignKey(User,on_delete=models.CASCADE)
-    image_foreign=models.ForeignKey(Image, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User,on_delete=models.CASCADE)
+    image_id=models.ForeignKey(Image, on_delete=models.CASCADE)
 
     def __str__(self):
         '''
@@ -78,7 +78,7 @@ class Comments(models.Model):
         '''
         function that gets comments for a single post
         '''
-        comments=cls.objects.filter(image_foreign__in=id)
+        comments=cls.objects.filter(image_id=id)
         return comments
     def save_comment(self):
         '''
