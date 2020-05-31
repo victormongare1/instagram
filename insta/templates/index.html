@@ -4,13 +4,21 @@
 
 {{block.super}}
 <div class="container">
+  {%if posts%}
   {% for post in posts %}
-    <div class="col-xs-12 col-sm-6 col-md-4 column">
+    <div class="col-xs-8 ">
       <div class="card">
-      <img src="{{post.image.url}}"  class="img-responsive" style="width:100%;max-width:500px;padding-top:10px;height: 300px;">
-      <a href="{% url 'single_image' post.id%}">details</a>
-      </div>
-  {% endfor%}    
+      <img src="{{post.image.url}}"  class="img-responsive"  id="homeimages" >
+      <a href="/likes/{{post.id}}"><button class="btn-xs btn-primary" >like</button></a>
+     
+      <a href="{% url 'single_image' post.id%}"><button class="btn-xs btn-primary">More</button> </a>
+      </div>  
+    </div>
+    <br />
+  {% endfor%}   
+  {% else%} 
+  <h1>There are no posts</h1>
+  {% endif %}
     
 </div>
 

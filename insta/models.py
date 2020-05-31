@@ -6,7 +6,7 @@ class Profile(models.Model):
     '''
     profile class to define profile objects
     '''
-    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    user=models.OneToOneField(User,on_delete=models.CASCADE)
     profile_pic=models.ImageField(upload_to = 'images/')
     bio=models.CharField(max_length = 100)
 
@@ -20,6 +20,7 @@ class Profile(models.Model):
         '''
         name = cls.objects.filter(user__username__icontains = search_term)
         return name
+
 
 class Image(models.Model):
     '''
@@ -55,6 +56,11 @@ class Image(models.Model):
         '''
         captions=cls.objects.filter(caption_id=id).update(caption = caption)
         return captions
+        
+    @classmethod
+    def get_image_by_id(cls,image_id):
+        images=cls.objects.get(id=image_id)
+        return images      
 
 class Comments(models.Model):
     '''
@@ -95,7 +101,9 @@ class Comments(models.Model):
         '''
         function that deletes a comment
         '''
-        self.delete()        
+        self.delete()  
+
+           
 
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

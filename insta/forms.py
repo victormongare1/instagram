@@ -22,7 +22,7 @@ class ImageForm(forms.ModelForm):
 
 class CommentForm(forms.ModelForm):
     class Meta:
-        model = Comment
+        model = Comments
         exclude = ['image', 'user']
         fields = ('comment',)
                  

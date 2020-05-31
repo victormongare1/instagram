@@ -8,43 +8,12 @@
   <title>Instagram</title>
 </head>
 <body>
-<nav class="navbar sticky-top navbar-expand-lg navbar-light">
+<nav class="navbar sticky-top navbar-expand-lg navbar-light" id="navbar">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="{% url 'home' %}">Instagram</a>
+      <a class="navbar-brand" href="{% url 'home' %}" id="home">Instagram</a>
     </div>
-    <div class="col-sm-4 col-md-4 navbar-right">
-      {% if user.is_authenticated %}
-      <ul>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle btn btn-default" data-toggle="dropdown" role="button" aria-expanded="false">Profile
-                    <span class="caret"></span>
-                </a>
-          <ul class="dropdown-menu" role="menu">
-            <li>
-              <a href="{%url 'newsToday'%}">Home</a>
-            </li>
-            <li>
-              <a href="{%url 'new-post'%}">Post</a>
-            </li>
-            <li>
-              <a class="nav-link" href="/profile/{{user.id}}">Profile</a>
-            </li>
-            <li>
-              <a href="/logout">Logout</a>
-            </li>
-          </ul>
-        </li>
-      </ul>
-      {% else %}
-      <li>
-        <a class="btn btn-default" href="/accounts/login">Login</a>
-      </li>
-
-      {% endif %}
-    </div> 
-    <!-- Adding a search form  -->
-    <div class="col-sm-4 col-md-4 ">
+     <div class="col-sm-4 col-md-4 ">
 
       <form class="navbar-form" role="search" action="{% url 'search_results' %}">
 
@@ -59,6 +28,39 @@
     </div>
     <!-- search form end -->
     
+    <div class="col-sm-4 col-md-4 navbar-right">
+      {% if user.is_authenticated %}
+      <ul>
+        <ul class="dropdown">
+          <a href="#" class="dropdown-toggle btn btn-default" data-toggle="dropdown" role="button" aria-expanded="false">Actions
+                    <span class="caret"></span>
+                </a>
+          <ul class="dropdown-menu" role="menu">
+            
+            <li>
+              <a href="{%url 'new_post'%}">Post</a>
+            </li>
+            <li>
+              <a href="{%url 'create_profile'%}">Create Profile</a>
+            </li>
+            <li>
+              <a  href="/profile/{{user.id}}">Profile</a>
+            </li>
+            <li>
+              <a href="/logout">Logout</a>
+            </li>
+          </ul>
+        </ul>
+      </ul>
+      {% else %}
+      <li>
+        <a class="btn btn-default" href="/accounts/login">Login</a>
+      </li>
+
+      {% endif %}
+    </div> 
+    <!-- Adding a search form  -->
+   
   </div>
 </nav>
 </body>

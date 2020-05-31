@@ -1,0 +1,30 @@
+body{
+  background-color: whitesmoke;
+  font-family: '';
+}
+#navbar{
+  background-color: white;
+}
+#home{
+  font-family: 'Lobster';
+  font-size: 30px;
+}
+button{
+  margin: 2px;
+}
+@media screen and (min-width: 480px){
+  #homeimages{
+    width:700px;
+    max-width:1000px;
+    padding-top:10px;
+    height: 500px;
+  }
+}  
+@media screen and (max-width: 480px) {
+  #homeimages{
+    width:100%;
+    max-width:200px;
+    padding-top:10px;
+    height: 200px;
+  }
+}  

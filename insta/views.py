@@ -9,7 +9,7 @@ from .forms import ImageForm,ProfileForm,CommentForm
 @login_required(login_url='/accounts/login/')
 def home(request):
     posts=Image.objects.all()
-    return(request, 'Index.html',{"posts":posts})
+    return render(request, 'index.html',{"posts":posts})
 
 @login_required(login_url='/accounts/login/')  
 def search_results(request):
@@ -39,11 +39,24 @@ def create_profile(request):
     return render(request, 'create_profile.html',{"form":form})
 
 @login_required(login_url='/accounts/login/')  
-def profile(request,id):  
-    current_user = request.user
-    profile = Profile.objects.filter(user_id=id).all()
-    images = Image.objects.filter(profile_id=current_user.profile.id).all()
-    return render(request, 'profile.html', {"profile":profile, "images":images})  
+def profile(request,id): 
+    try: 
+        current_user = request.user
+        profile = Profile.objects.filter(user_id=id).all()
+        images = Image.objects.filter(profile_id=current_user.profile.id).all()
+        return render(request, 'profile.html', {"profile":profile, "images":images}) 
+    except User.profile.RelatedObjectDoesNotExist:
+        current_user = request.user
+        if request.method=="POST":
+            form = ProfileForm(request.POST,request.FILES)
+            if form.is_valid():
+                profile =form.save(commit=False)
+                profile.user = current_user
+                profile.save()
+                return render(request, 'profile.html', {"profile":profile, "images":images}) 
+        else:
+            form = ProfileForm()
+        return render(request, 'create_profile.html',{"form":form})
 
 @login_required(login_url='/accounts/login/')  
 def new_post(request):
@@ -61,20 +74,6 @@ def new_post(request):
 
 
 @login_required(login_url='/accounts/login/')  
-def new_comment(request,id):
-    current_user = request.user
-    image = Image.objects.get(pk=id)
-    if request.method=='POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.user_id = current_user
-            comment.image_id = image
-            comment.save_comment()
-            return redirect(home)
-    else:
-        form= CommentForm()
-    return render(request, 'newcomment.html', {"form":form, "image":image})
 
 @login_required(login_url='/accounts/login/')       
 def likes(request, img_id):
@@ -88,7 +87,19 @@ def likes(request, img_id):
 def one_image(request, img_id):
     image = Image.objects.get(pk=img_id)
     no_of_likes = image.like_set.all().count()
-    comments = Comment.objects.filter(image_id=img_id).all()
-    return render(request,'singlepost.html',{"image":image, "comments":comments, "no_of_likes":no_of_likes})
+    comments = Comments.objects.filter(image_id=img_id).all()
+    current_user = request.user
+    image = Image.get_image_by_id(img_id)
+    if request.method=='POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user_id = current_user
+            comment.image_id = image
+            comment.save()
+            comment = form.cleaned_data['comment']
+    else:
+        form= CommentForm()
+    return render(request,'singlepost.html',{"image":image, "comments":comments, "no_of_likes":no_of_likes,"form":form})
 
 

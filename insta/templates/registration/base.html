@@ -1,4 +1,4 @@
-{% load bootstrap3 %}
+{% load bootstrap4 %}
 {% load staticfiles %}
 <!DOCTYPE html>
 <html>
@@ -7,6 +7,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Instagram</title>
+{% block styles %}
+{% bootstrap_css %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock %}
 </head>
 
 <body>
