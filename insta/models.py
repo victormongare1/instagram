@@ -13,6 +13,15 @@ class Profile(models.Model):
     def __str__(self):
         return self.user
 
+    def save_profile(self):
+        self.save()
+
+    def delete_profile(self):
+        '''
+        method that deletes post from database
+        '''
+        self.delete()    
+
     @classmethod
     def search_by_name(cls,search_term):
         '''
@@ -56,7 +65,7 @@ class Image(models.Model):
         '''
         captions=cls.objects.filter(caption_id=id).update(caption = caption)
         return captions
-        
+
     @classmethod
     def get_image_by_id(cls,image_id):
         images=cls.objects.get(id=image_id)
